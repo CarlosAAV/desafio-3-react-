@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react"
+import './css/App.css'
+import ListaColab from './components/ListaColab'
+
+
+//import Colaboradores from './Colaboradores.json'
+import FormColaborador from './components/FormColaborador'
+import Buscador from './components/Buscador'
+import ColaboradoresDB from "./ColaboradoresDB"
+
 
 function App() {
+  const [nombreBusqueda, setNombreBusqueda] = useState("")
+  const [listaColaboradores, setListaColaboradores] = useState(ColaboradoresDB)
+  
+  const guardarColaborador = (colaborador) => {
+    const nuevoColaborador = {
+      id: `${listaColaboradores.length + 1}`,
+      ...colaborador
+    }
+    setListaColaboradores([...listaColaboradores, nuevoColaborador])
+  }
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      < Buscador setNombreBusqueda={setNombreBusqueda} />
+      < FormColaborador guardarColaborador={guardarColaborador} />
+      < ListaColab listaColaboradores={listaColaboradores} nombreBusqueda={nombreBusqueda}/>
     </div>
   );
 }
